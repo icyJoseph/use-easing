@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+lib/
+
+**/*/bootstrap.min.css
+**/*/prism.css

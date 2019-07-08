@@ -1,0 +1,56 @@
+{
+  "name": "use-count-up",
+  "version": "1.0.0",
+  "description": "CountUp pure React Hook",
+  "author": {
+    "name": "Joseph Chamochumbi",
+    "email": "contact@icjoseph.com",
+    "url": "http://icjoseph.com"
+  },
+  "keywords": [],
+  "repository": "github:icyJoseph/use-count-up",
+  "main": "dist/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build-lib": "tsc",
+    "test": "yarn jest ./tests",
+    "test:cov": "yarn jest ./tests --collectCoverage",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development",
+    "transpile": "babel src -d dist --copy-files",
+    "prepublishOnly": "npm run transpile"
+  },
+  "peerDependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-test-renderer": "^16.8.2",
+    "@types/recharts": "^1.1.17",
+    "css-loader": "^2.0.1",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.6.0",
+    "jest": "^24.5.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-test-renderer": "^16.8.5",
+    "recharts": "^1.6.2",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./setupTests.js"
+    ]
+  }
+}

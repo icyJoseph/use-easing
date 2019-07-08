@@ -1,0 +1,13 @@
+# .npmignore 
+/examples
+/webpack.config.js
+/.git
+/node_modules
+/src
+/tests
+/.gitignore
+/.npmignore
+/.travis.yml
+/package-lock.json
+/tsconfig.json
+/yarn.lock
