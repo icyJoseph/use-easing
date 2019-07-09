@@ -1,28 +1,34 @@
 import { useState, useEffect, useRef } from "react";
 import { easing } from "./easings";
 
-interface CountProps {
+type Noop = () => void;
+type Trigger = (_: boolean) => void;
+type Format<T> = (_: number) => T;
+
+interface FormatFn<T> {
+  format: (_: number) => T;
+}
+
+interface CountProps<T> {
   start?: number;
   end: number;
   duration: number;
   easingFn: easing;
-  formatFn?: FormatFn;
+  formatFn?: Format<T>;
   autoStart?: boolean;
 }
 
-type Noop = () => void;
-type Identity = <T>(_: T) => T;
-type FormatFn = <T, G>(_: T) => T | G;
-
-type Trigger = (_: boolean) => void;
-
-export interface UseCountUpResult<T> {
+interface UseCountUpResult<T> {
   count: T;
   setTrigger: Trigger;
 }
 
+const formatter = <T>(f: Format<T>): FormatFn<T> => ({
+  format: f
+});
+
 const noop: Noop = () => {};
-const identity: Identity = val => val;
+const identity = (val: any) => val;
 
 export function useCountUp<T>({
   start = 0,
@@ -31,7 +37,7 @@ export function useCountUp<T>({
   easingFn,
   formatFn = identity,
   autoStart = true
-}: CountProps): UseCountUpResult<T> {
+}: CountProps<T>): UseCountUpResult<T> {
   const [trigger, setTrigger] = useState(autoStart);
   const [data, setData] = useState<number>(start);
   const easingFnRef = useRef<easing>(easingFn);
@@ -100,8 +106,10 @@ export function useCountUp<T>({
     };
   }, [trigger, end, duration]);
 
+  const userFormat = formatter<T>(formatFn);
+
   return {
-    count: formatFn<number, T>(data) as T,
+    count: userFormat.format(data),
     setTrigger
   } as UseCountUpResult<T>;
 }
