@@ -3,35 +3,39 @@ import React from "react";
 
 import "./App.css";
 
+import infinite from "./infinite";
 import useCountUp from "../../src";
 import { easeInQuad } from "../../src/easings";
 
-// TODO: Review. This is very hacky!
-// And would have to be done by the end user
-function formatFn<A, B>(data: A): B {
-  const formatted = ((data as unknown) as number).toFixed(2);
-  return (formatted as unknown) as B;
-}
+const alphabet: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const infiniteAlphabet = infinite(alphabet.split(""));
 
 const App: React.FC = () => {
-  const { count, setTrigger } = useCountUp<string>({
+  const { count, setTrigger } = useCountUp<number>({
     start: 0,
-    end: 10,
+    end: alphabet.length - 1,
     duration: 5,
     easingFn: easeInQuad,
     autoStart: false,
-    formatFn
+    formatFn: x => Math.floor(x)
   });
+
+  const [index, setIndex] = React.useState("A");
 
   React.useEffect(() => {
     const timer = setTimeout(() => setTrigger(true), 1000);
     return () => clearTimeout(timer);
-  });
+  }, []);
+
+  React.useEffect(() => {
+    setIndex(infiniteAlphabet.next().value);
+  }, [count]);
 
   return (
     <div className="App">
       {/* <Chart /> */}
       {count}
+      {index}
     </div>
   );
 };
