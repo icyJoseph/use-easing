@@ -13,8 +13,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build:lib": "tsc",
-    "test": "yarn jest",
-    "test:watch": "yarn jest --watch",
+    "test": "yarn jest --env=jsdom",
+    "test:watch": "yarn jest --env=jsdom --watch",
     "test:cov": "jest ./tests --collectCoverage",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development",
@@ -27,6 +27,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^8.0.4",
     "@types/jest": "^24.0.15",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
