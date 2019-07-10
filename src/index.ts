@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { easing } from "./easings";
+import { easing, easeInQuad } from "./easings";
 
 type Noop = () => void;
 type Trigger = (_: boolean) => void;
@@ -13,7 +13,7 @@ interface CountProps<T> {
   start?: number;
   end: number;
   duration: number;
-  easingFn: easing;
+  easingFn?: easing;
   autoStart?: boolean;
   formatFn?: Format<T>;
   onCleanUp?: () => void;
@@ -37,8 +37,8 @@ export function useCountUp<T>({
   start = 0,
   end,
   duration,
-  easingFn,
   autoStart = true,
+  easingFn = easeInQuad,
   formatFn = identity,
   onCleanUp = noop,
   onPaused = noop,
