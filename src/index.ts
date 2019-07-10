@@ -14,8 +14,12 @@ interface CountProps<T> {
   end: number;
   duration: number;
   easingFn: easing;
-  formatFn?: Format<T>;
   autoStart?: boolean;
+  formatFn?: Format<T>;
+  onCleanUp?: () => void;
+  onPaused?: () => void;
+  onStart?: () => void;
+  onEnd?: () => void;
 }
 
 interface UseCountUpResult<T> {
@@ -23,32 +27,37 @@ interface UseCountUpResult<T> {
   setTrigger: Trigger;
 }
 
+const noop: Noop = () => {};
+const identity = (val: any) => val;
 const formatter = <T>(f: Format<T>): FormatFn<T> => ({
   format: f
 });
-
-const noop: Noop = () => {};
-const identity = (val: any) => val;
 
 export function useCountUp<T>({
   start = 0,
   end,
   duration,
   easingFn,
+  autoStart = true,
   formatFn = identity,
-  autoStart = true
+  onCleanUp = noop,
+  onPaused = noop,
+  onStart = noop,
+  onEnd = noop
 }: CountProps<T>): UseCountUpResult<T> {
   const [trigger, setTrigger] = useState(autoStart);
   const [data, setData] = useState<number>(start);
   const easingFnRef = useRef<easing>(easingFn);
   const dataRef = useRef<number>(data);
-  dataRef.current = data;
+  dataRef.current = data; // Update on every render
+  const callbacks = useRef({ onCleanUp, onPaused, onStart, onEnd });
 
   useEffect(() => {
     let raf: number;
     let callNewRaf: boolean = true;
     if (trigger) {
       console.group("CountUp Effect starts");
+      callbacks.current.onStart();
       // request animation frames receives time in milliseconds
       raf = window.requestAnimationFrame((startTime: number) => {
         const endTime = startTime + duration * 1000;
@@ -70,7 +79,7 @@ export function useCountUp<T>({
         const handler = (time: number) => {
           if (time > endTime) {
             setData(end);
-            return noop;
+            return onEnd();
           }
           setData(() =>
             easingFnRef.current(
@@ -93,6 +102,7 @@ export function useCountUp<T>({
       console.log("But it could not be started");
       console.log("trigger", trigger);
       console.groupEnd();
+      callbacks.current.onPaused();
     }
 
     return () => {
@@ -101,6 +111,7 @@ export function useCountUp<T>({
       console.log("CountUp: ", dataRef.current);
       console.log("Animation Frame: ", raf);
       console.groupEnd();
+      callbacks.current.onCleanUp();
       callNewRaf = false;
       window.cancelAnimationFrame(raf);
     };
