@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "repository": "github:icyJoseph/use-count-up",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build-lib": "tsc",
