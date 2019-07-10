@@ -1,5 +1,5 @@
 import React from "react";
-// import Chart from "./Chart";
+import Chart from "./Chart";
 
 import "./App.css";
 
@@ -20,7 +20,7 @@ const App: React.FC = () => {
     formatFn: x => Math.floor(x)
   });
 
-  const [index, setIndex] = React.useState("A");
+  const [letter, setLetter] = React.useState("");
 
   React.useEffect(() => {
     const timer = setTimeout(() => setTrigger(true), 1000);
@@ -28,14 +28,14 @@ const App: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    setIndex(infiniteAlphabet.next().value);
+    setLetter(infiniteAlphabet.next().value);
   }, [count]);
 
   return (
     <div className="App">
-      {/* <Chart /> */}
+      <Chart />
       {count}
-      {index}
+      {letter}
     </div>
   );
 };
