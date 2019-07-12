@@ -23,7 +23,7 @@ interface EasingProps<T> {
 }
 
 interface useEasingResult<T> {
-  count: T;
+  value: T;
   setTrigger: Trigger;
 }
 
@@ -120,7 +120,7 @@ export function useEasing<T>({
   const userFormat = formatter<T>(formatFn);
 
   return {
-    count: userFormat.format(data),
+    value: userFormat.format(data),
     setTrigger
   } as useEasingResult<T>;
 }

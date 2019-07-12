@@ -52,7 +52,7 @@ const Container = ({ children }: ContainerProps) => {
 };
 
 const StartStop = ({ start, end, duration }: StartStopProps) => {
-  const { count, setTrigger } = useEasing<number>({
+  const { value, setTrigger } = useEasing<number>({
     start,
     end,
     duration,
@@ -65,7 +65,7 @@ const StartStop = ({ start, end, duration }: StartStopProps) => {
   });
   return (
     <div>
-      <div data-testid="count">{count}</div>
+      <div data-testid="value">{value}</div>
       <button data-testid="start" onClick={() => setTrigger(true)}>
         start
       </button>
@@ -92,7 +92,7 @@ describe("useEasing stable 60fps", () => {
   );
 
   it("starts at the specified value", () => {
-    const startingFrame = getByTestId("count");
+    const startingFrame = getByTestId("value");
     const startingFrameValue = startingFrame && startingFrame.textContent;
     expect(startingFrameValue).toEqual(`${basicProps.start}`);
     act(() => {
@@ -105,7 +105,7 @@ describe("useEasing stable 60fps", () => {
       jest.runTimersToTime(16);
     });
 
-    const firstFrame = getByTestId("count");
+    const firstFrame = getByTestId("value");
     const firstFrameValue = firstFrame && firstFrame.textContent;
     expect(firstFrameValue).toEqual(`${basicProps.start}`);
   });
@@ -128,7 +128,7 @@ describe("useEasing stable 60fps", () => {
       jest.runTimersToTime(496); // account for **
     });
 
-    const midFrame = getByTestId("count");
+    const midFrame = getByTestId("value");
     const midFrameValue = midFrame && midFrame.textContent;
     expect(midFrameValue).toEqual(`${Math.floor(expectedMidValue)}`);
   });
@@ -145,7 +145,7 @@ describe("useEasing stable 60fps", () => {
       jest.runOnlyPendingTimers();
     });
 
-    const beforePausingFrame = getByTestId("count");
+    const beforePausingFrame = getByTestId("value");
     const beforePausingFrameValue =
       beforePausingFrame && beforePausingFrame.textContent;
 
@@ -153,7 +153,7 @@ describe("useEasing stable 60fps", () => {
       jest.runTimersToTime(496); // should have no effect
     });
 
-    const pausingFrame = getByTestId("count");
+    const pausingFrame = getByTestId("value");
     const pausingFrameValue = pausingFrame && pausingFrame.textContent;
     expect(pausingFrameValue).toEqual(beforePausingFrameValue);
   });
@@ -167,7 +167,7 @@ describe("useEasing stable 60fps", () => {
       jest.runTimersToTime(basicProps.duration * 1000 + 16 + 16); //
     });
 
-    const finalFrame = getByTestId("count");
+    const finalFrame = getByTestId("value");
     const finalFrameValue = finalFrame && finalFrame.textContent;
     expect(finalFrameValue).toEqual(`${basicProps.end}`);
   });

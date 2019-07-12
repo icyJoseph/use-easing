@@ -15,7 +15,7 @@ const colors = ["#fff489", "#fa57c1", "#b166cc", "#7572ff", "#69a6f9", "coral"];
 export const Chart: React.FC = () => {
   const [end, setEnd] = React.useState(5);
   const [data, setData] = React.useState<object[]>([]);
-  const { count, setTrigger } = useEasing<number>({
+  const { value, setTrigger } = useEasing<number>({
     start: 0,
     end,
     duration: 5,
@@ -47,8 +47,8 @@ export const Chart: React.FC = () => {
   }, [setTrigger]);
 
   React.useEffect(() => {
-    setData((prev: object[]) => [...prev, { count, index: prev.length }]);
-  }, [count]);
+    setData((prev: object[]) => [...prev, { value, index: prev.length }]);
+  }, [value]);
 
   return (
     <LineChart width={300} height={300} data={data}>
@@ -64,7 +64,7 @@ export const Chart: React.FC = () => {
       <Line
         name="easeOutElastic"
         type="monotone"
-        dataKey="count"
+        dataKey="value"
         stroke={colors[0]}
         strokeWidth={2}
         dot={false}

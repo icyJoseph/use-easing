@@ -22,12 +22,12 @@ interface CounterProps {
 }
 
 const Counter = ({ start, end, duration }: CounterProps) => {
-  const { count } = useEasing<number>({
+  const { value } = useEasing<number>({
     start,
     end,
     duration
   });
-  return <div data-testid="count">{count}</div>;
+  return <div data-testid="value">{value}</div>;
 };
 
 const frame = generateFrames();
@@ -42,7 +42,7 @@ describe("useEasing with basic config and stable 60fps", () => {
   const { getByTestId } = render(<Counter {...basicProps} />);
 
   it("starts at the specified value", () => {
-    const startingFrame = getByTestId("count");
+    const startingFrame = getByTestId("value");
     const startingFrameValue = startingFrame && startingFrame.textContent;
     expect(startingFrameValue).toEqual(`${basicProps.start}`);
     act(() => {
@@ -62,7 +62,7 @@ describe("useEasing with basic config and stable 60fps", () => {
       jest.runTimersToTime(16);
     });
 
-    const firstFrame = getByTestId("count");
+    const firstFrame = getByTestId("value");
     const firstFrameValue = firstFrame && firstFrame.textContent;
     expect(firstFrameValue).toEqual(`${expectedFrameValue}`);
   });
@@ -79,7 +79,7 @@ describe("useEasing with basic config and stable 60fps", () => {
       jest.runTimersToTime(496); // account for **
     });
 
-    const midFrame = getByTestId("count");
+    const midFrame = getByTestId("value");
     const midFrameValue = midFrame && midFrame.textContent;
     expect(midFrameValue).toEqual(`${expectedMidValue}`);
   });
@@ -89,7 +89,7 @@ describe("useEasing with basic config and stable 60fps", () => {
       jest.runTimersToTime(basicProps.duration * 1000); // account for **
     });
 
-    const finalFrame = getByTestId("count");
+    const finalFrame = getByTestId("value");
     const finalFrameValue = finalFrame && finalFrame.textContent;
     expect(finalFrameValue).toEqual(`${basicProps.end}`);
   });

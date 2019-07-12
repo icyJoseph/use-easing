@@ -9,7 +9,7 @@ const alphabet: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const infiniteAlphabet = infinite(alphabet.split(""));
 
 const App: React.FC = () => {
-  const { count, setTrigger } = useEasing<number>({
+  const { value, setTrigger } = useEasing<number>({
     start: 0,
     end: alphabet.length - 1,
     duration: 5,
@@ -27,12 +27,12 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     setLetter(infiniteAlphabet.next().value);
-  }, [count]);
+  }, [value]);
 
   return (
     <div>
       <Chart />
-      <div style={{ width: 500 }}>{count}</div>
+      <div style={{ width: 500 }}>{value}</div>
       <div style={{ width: 500 }}>{letter}</div>
     </div>
   );
