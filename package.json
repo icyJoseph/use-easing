@@ -13,8 +13,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build:lib": "tsc",
-    "test": "yarn jest --env=jsdom",
-    "test:watch": "yarn jest --env=jsdom --watch",
+    "test": "yarn jest",
+    "test:watch": "yarn jest --watch",
     "test:cov": "jest ./tests --collectCoverage",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development",
