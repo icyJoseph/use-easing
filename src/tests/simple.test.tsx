@@ -22,7 +22,7 @@ interface CounterProps {
 }
 
 const Counter = ({ start, end, duration }: CounterProps) => {
-  const { count, setTrigger } = useCountUp<number>({
+  const { count } = useCountUp<number>({
     start,
     end,
     duration
