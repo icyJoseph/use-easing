@@ -1,17 +1,15 @@
 import React from "react";
+import useEasing from "use-easing";
+import { easeInQuad } from "use-easing/lib/easings";
+
 import Chart from "./Chart";
-
-import "./App.css";
-
 import infinite from "./infinite";
-import useCountUp from "../../src";
-import { easeInQuad } from "../../src/easings";
 
 const alphabet: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const infiniteAlphabet = infinite(alphabet.split(""));
 
 const App: React.FC = () => {
-  const { count, setTrigger } = useCountUp<number>({
+  const { count, setTrigger } = useEasing<number>({
     start: 0,
     end: alphabet.length - 1,
     duration: 5,
@@ -32,10 +30,10 @@ const App: React.FC = () => {
   }, [count]);
 
   return (
-    <div className="App">
+    <div>
       <Chart />
-      {count}
-      {letter}
+      <div style={{ width: 500 }}>{count}</div>
+      <div style={{ width: 500 }}>{letter}</div>
     </div>
   );
 };

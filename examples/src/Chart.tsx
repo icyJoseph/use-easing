@@ -1,6 +1,6 @@
 import React from "react";
 import { LineChart, Line, Legend, XAxis, YAxis } from "recharts";
-import useCountUp from "../../src/";
+import useEasing from "use-easing";
 import {
   // easeInOutBack
   // linear
@@ -8,14 +8,14 @@ import {
   // easeInOutSine
   easeOutElastic
   // easeBackIn,
-} from "../../src/easings";
+} from "use-easing/lig/easings";
 
 const colors = ["#fff489", "#fa57c1", "#b166cc", "#7572ff", "#69a6f9", "coral"];
 
-export const Chart = () => {
+export const Chart: React.FC = () => {
   const [end, setEnd] = React.useState(5);
   const [data, setData] = React.useState<object[]>([]);
-  const { count, setTrigger } = useCountUp<number>({
+  const { count, setTrigger } = useEasing<number>({
     start: 0,
     end,
     duration: 5,
@@ -51,7 +51,7 @@ export const Chart = () => {
   }, [count]);
 
   return (
-    <LineChart width={500} height={500} data={data}>
+    <LineChart width={300} height={300} data={data}>
       <XAxis
         hide
         type="number"

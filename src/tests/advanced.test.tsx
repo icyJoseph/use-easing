@@ -3,7 +3,14 @@ import { act } from "react-dom/test-utils";
 import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-import useCountUp from "../index";
+/** TODO:
+ *  - Unmount by parent
+ *  - Change to end after stop
+ *  - change to end while running
+ *  - change to end while paused
+ */
+
+import useEasing from "../index";
 import { easeInQuad } from "../easings"; // the default easing
 
 // Test helper to simulate ticks on requestAnimationFrame
@@ -17,7 +24,7 @@ function* generateFrames() {
 
 const onStart = jest.fn();
 const onEnd = jest.fn();
-const onPaused = jest.fn();
+const onPauseResume = jest.fn();
 const onCleanUp = jest.fn();
 const formatFn = jest.fn(x => Math.floor(x));
 
@@ -45,7 +52,7 @@ const Container = ({ children }: ContainerProps) => {
 };
 
 const StartStop = ({ start, end, duration }: StartStopProps) => {
-  const { count, setTrigger } = useCountUp<number>({
+  const { count, setTrigger } = useEasing<number>({
     start,
     end,
     duration,
@@ -53,7 +60,7 @@ const StartStop = ({ start, end, duration }: StartStopProps) => {
     formatFn,
     onStart,
     onEnd,
-    onPaused,
+    onPauseResume,
     onCleanUp
   });
   return (
@@ -75,7 +82,7 @@ jest
   .spyOn(window, "requestAnimationFrame")
   .mockImplementation(fn => setTimeout(() => fn(frame.next().value), 16));
 
-describe("useCountUp with basic config and stable 60fps", () => {
+describe("useEasing stable 60fps", () => {
   // over 1 second, countUp from 0 to 100, using easeInQuad
   const basicProps: StartStopProps = { start: 0, end: 100, duration: 1 };
   const { getByTestId } = render(
@@ -167,5 +174,8 @@ describe("useCountUp with basic config and stable 60fps", () => {
 
   it("invokes the callbacks", () => {
     expect(onStart).toHaveBeenCalled();
+    expect(onPauseResume).toHaveBeenCalledTimes(2);
+    expect(onCleanUp).toHaveBeenCalledTimes(3);
+    expect(onEnd).toHaveBeenCalledTimes(1);
   });
 });

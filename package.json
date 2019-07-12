@@ -1,18 +1,18 @@
 {
-  "name": "use-count-up",
+  "name": "use-easing",
   "version": "1.0.0",
-  "description": "CountUp pure React Hook",
+  "description": "Use easings with a pure React Hook",
   "author": {
     "name": "Joseph Chamochumbi",
     "email": "contact@icjoseph.com",
     "url": "http://icjoseph.com"
   },
   "keywords": [],
-  "repository": "github:icyJoseph/use-count-up",
+  "repository": "github:icyJoseph/use-easing",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build:lib": "tsc",
+    "build:lib": "yarn test && tsc",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch",
     "test:cov": "jest ./tests --collectCoverage",
@@ -51,10 +51,5 @@
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./setupTests.js"
-    ]
   }
 }

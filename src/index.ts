@@ -9,7 +9,7 @@ interface FormatFn<T> {
   format: (_: number) => T;
 }
 
-interface CountProps<T> {
+interface EasingProps<T> {
   start?: number;
   end: number;
   duration: number;
@@ -17,12 +17,12 @@ interface CountProps<T> {
   autoStart?: boolean;
   formatFn?: Format<T>;
   onCleanUp?: () => void;
-  onPaused?: () => void;
+  onPauseResume?: () => void;
   onStart?: () => void;
   onEnd?: () => void;
 }
 
-interface UseCountUpResult<T> {
+interface useEasingResult<T> {
   count: T;
   setTrigger: Trigger;
 }
@@ -33,7 +33,7 @@ const formatter = <T>(f: Format<T>): FormatFn<T> => ({
   format: f
 });
 
-export function useCountUp<T>({
+export function useEasing<T>({
   start = 0,
   end,
   duration,
@@ -41,16 +41,16 @@ export function useCountUp<T>({
   easingFn = easeInQuad,
   formatFn = identity,
   onCleanUp = noop,
-  onPaused = noop,
+  onPauseResume = noop,
   onStart = noop,
   onEnd = noop
-}: CountProps<T>): UseCountUpResult<T> {
+}: EasingProps<T>): useEasingResult<T> {
   const [trigger, setTrigger] = useState(autoStart);
   const [data, setData] = useState<number>(start);
   const easingFnRef = useRef<easing>(easingFn);
   const dataRef = useRef<number>(data);
   dataRef.current = data; // Update on every render
-  const callbacks = useRef({ onCleanUp, onPaused, onStart, onEnd });
+  const callbacks = useRef({ onCleanUp, onPauseResume, onStart, onEnd });
 
   useEffect(() => {
     let raf: number;
@@ -102,7 +102,7 @@ export function useCountUp<T>({
       // console.log("But it could not be started");
       // console.log("trigger", trigger);
       // console.groupEnd();
-      callbacks.current.onPaused();
+      callbacks.current.onPauseResume();
     }
 
     return () => {
@@ -122,7 +122,7 @@ export function useCountUp<T>({
   return {
     count: userFormat.format(data),
     setTrigger
-  } as UseCountUpResult<T>;
+  } as useEasingResult<T>;
 }
 
-export default useCountUp;
+export default useEasing;

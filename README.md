@@ -70,7 +70,7 @@ const fixed = x => x.toFixed(2);
 
 Called when the effect is cleaned up.
 
-### `onPaused`
+### `onPauseResume`
 
 Called when the count up process is paused.
 

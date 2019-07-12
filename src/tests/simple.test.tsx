@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-import useCountUp from "../index";
+import useEasing from "../index";
 import { easeInQuad } from "../easings"; // the default easing
 
 // Test helper to simulate ticks on requestAnimationFrame
@@ -22,7 +22,7 @@ interface CounterProps {
 }
 
 const Counter = ({ start, end, duration }: CounterProps) => {
-  const { count } = useCountUp<number>({
+  const { count } = useEasing<number>({
     start,
     end,
     duration
@@ -36,7 +36,7 @@ jest
   .spyOn(window, "requestAnimationFrame")
   .mockImplementation(fn => setTimeout(() => fn(frame.next().value), 16));
 
-describe("useCountUp with basic config and stable 60fps", () => {
+describe("useEasing with basic config and stable 60fps", () => {
   // over 1 second, countUp from 0 to 100, using easeInQuad
   const basicProps: CounterProps = { start: 0, end: 100, duration: 1 };
   const { getByTestId } = render(<Counter {...basicProps} />);
