@@ -56,7 +56,7 @@ export function useCountUp<T>({
     let raf: number;
     let callNewRaf: boolean = true;
     if (trigger) {
-      console.group("CountUp Effect starts");
+      // console.group("CountUp Effect starts");
       callbacks.current.onStart();
       // request animation frames receives time in milliseconds
       raf = window.requestAnimationFrame((startTime: number) => {
@@ -65,15 +65,15 @@ export function useCountUp<T>({
         const _start = dataRef.current;
         // get the total change
         const change = end - _start;
-        console.log("Animation Frames running with these settings:", {
-          start: _start,
-          currentRef: dataRef.current,
-          end,
-          change,
-          startTime,
-          endTime
-        });
-        console.groupEnd();
+        // console.log("Animation Frames running with these settings:", {
+        //   start: _start,
+        //   currentRef: dataRef.current,
+        //   end,
+        //   change,
+        //   startTime,
+        //   endTime
+        // });
+        // console.groupEnd();
         setData(_start);
 
         const handler = (time: number) => {
@@ -98,19 +98,19 @@ export function useCountUp<T>({
         raf = window.requestAnimationFrame(handler);
       });
     } else {
-      console.group("CountUp effect");
-      console.log("But it could not be started");
-      console.log("trigger", trigger);
-      console.groupEnd();
+      // console.group("CountUp effect");
+      // console.log("But it could not be started");
+      // console.log("trigger", trigger);
+      // console.groupEnd();
       callbacks.current.onPaused();
     }
 
     return () => {
-      console.group("CountUp Clean Up");
-      console.log("trigger: ", trigger);
-      console.log("CountUp: ", dataRef.current);
-      console.log("Animation Frame: ", raf);
-      console.groupEnd();
+      // console.group("CountUp Clean Up");
+      // console.log("trigger: ", trigger);
+      // console.log("CountUp: ", dataRef.current);
+      // console.log("Animation Frame: ", raf);
+      // console.groupEnd();
       callbacks.current.onCleanUp();
       callNewRaf = false;
       window.cancelAnimationFrame(raf);
