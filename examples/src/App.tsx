@@ -3,37 +3,50 @@ import useEasing from "use-easing";
 import { easeInQuad } from "use-easing/lib/easings";
 
 import Chart from "./Chart";
-import infinite from "./infinite";
 
-const alphabet: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const infiniteAlphabet = infinite(alphabet.split(""));
+enum actions {
+  INC = "+",
+  DEC = "-"
+}
+
+interface Inc {
+  type: typeof actions.INC;
+}
+
+interface Dec {
+  type: typeof actions.DEC;
+}
+type actionTypes = Inc | Dec;
+
+const inc: Inc = { type: actions.INC };
+const dec: Dec = { type: actions.DEC };
+
+const reducer = (state: number, action: actionTypes): number => {
+  switch (action.type) {
+    case actions.INC:
+      return state + 1;
+    case actions.DEC:
+      return state - 1;
+    default:
+      return state;
+  }
+};
 
 const App: React.FC = () => {
-  const { value, setTrigger } = useEasing<number>({
-    start: 0,
-    end: alphabet.length - 1,
-    duration: 5,
-    easingFn: easeInQuad,
-    autoStart: false,
-    formatFn: x => Math.floor(x)
-  });
-
-  const [letter, setLetter] = React.useState("");
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setTrigger(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  React.useEffect(() => {
-    setLetter(infiniteAlphabet.next().value);
-  }, [value]);
+  const [state, dispatch] = React.useReducer(reducer, 10);
 
   return (
     <div>
-      <Chart />
-      <div style={{ width: 500 }}>{value}</div>
-      <div style={{ width: 500 }}>{letter}</div>
+      <h1>useEasing</h1>
+      <section>
+        <button onClick={() => dispatch(inc)}>Inc</button>
+        <button onClick={() => dispatch(dec)}>Dec</button>
+      </section>
+      <section>
+        <span>{state}</span>
+      </section>
+
+      <Chart end={state} />
     </div>
   );
 };
