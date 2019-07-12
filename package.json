@@ -16,8 +16,8 @@
     "test": "yarn jest",
     "test:watch": "yarn jest --watch",
     "test:cov": "jest ./tests --collectCoverage",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development",
+    "build:demo": "webpack --mode production",
+    "start:demo": "webpack-dev-server --mode development",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile"
   },
