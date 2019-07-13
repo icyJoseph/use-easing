@@ -10,6 +10,27 @@ The package is written using TypeScript.
 
 > Inspired by [React CountUp](https://github.com/glennreyes/react-countup)
 
+## Install
+
+Available in NPM, as [use-easing](https://www.npmjs.com/package/use-easing)!
+
+```
+npm install use-easing
+```
+
+or
+
+```
+yarn install use-easing
+```
+
+## Demo
+
+1. Clone repo `git clone git@github.com:icyJoseph/use-easing.git`
+2. Install dependencies `yarn` or `npm i`
+3. Run `yarn start:demo` or `npm run start:demo`
+4. Go to `localhost:3001`
+
 ## Structure
 
 The hook encapsulates a single `effect`, which kicks off a `process` that invokes `requestAnimationFrame`,
