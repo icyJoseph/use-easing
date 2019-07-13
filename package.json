@@ -1,13 +1,20 @@
 {
   "name": "use-easing",
   "version": "0.0.1",
-  "description": "Use easings with a pure React Hook",
+  "description": "Use easing functions with a pure React Hook",
   "author": {
     "name": "Joseph Chamochumbi",
     "email": "contact@icjoseph.com",
     "url": "http://icjoseph.com"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "easing",
+    "easing-functions",
+    "react-hooks",
+    "count-up",
+    "typescript"
+  ],
   "repository": "github:icyJoseph/use-easing",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
