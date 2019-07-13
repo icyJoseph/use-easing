@@ -18,8 +18,7 @@
     "test:cov": "jest ./tests --collectCoverage",
     "build:demo": "webpack --mode production",
     "start:demo": "webpack-dev-server --mode development",
-    "transpile": "babel src -d dist --copy-files",
-    "prepublishOnly": "npm run transpile"
+    "prepublishOnly": "yarn build:lib"
   },
   "peerDependencies": {
     "react": "^16.8.1",
