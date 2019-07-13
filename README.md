@@ -8,6 +8,8 @@ This package also provides a few easings, you can specify any easing you want.
 
 The package is written using TypeScript.
 
+> Inspired by [React CountUp](https://github.com/glennreyes/react-countup)
+
 ## Structure
 
 The hook encapsulates a single `effect`, which kicks off a `process` that invokes `requestAnimationFrame`,
