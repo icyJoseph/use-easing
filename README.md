@@ -36,7 +36,7 @@ function App() {
 }
 ```
 
-This config starts on mount and goes up to 10, over 1 second. By default it uses, the `easeInQuad`
+This config starts on mount and goes up to 10, over 1 second. By default it uses, the `easeInQuad`.
 
 ```ts
 export const easeInQuad: easing = (
