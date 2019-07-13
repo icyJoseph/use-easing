@@ -36,16 +36,15 @@ const App: React.FC = () => {
   const [state, dispatch] = React.useReducer(reducer, 10);
 
   return (
-    <div>
-      <h1>useEasing</h1>
+    <div className="App">
+      <h1 className="title">useEasing</h1>
       <section>
+        <span>Goal: {state}</span>
+      </section>
+      <section className="btn-ctrl">
         <button onClick={() => dispatch(inc)}>Inc</button>
         <button onClick={() => dispatch(dec)}>Dec</button>
       </section>
-      <section>
-        <span>{state}</span>
-      </section>
-
       <Chart end={state} />
     </div>
   );

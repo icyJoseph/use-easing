@@ -25,10 +25,6 @@ export function Chart({ end }: IChart) {
 
   return (
     <div>
-      <section>
-        <button onClick={() => setTrigger(true)}>Start</button>
-        <button onClick={() => setTrigger(false)}>Stop</button>
-      </section>
       <LineChart width={300} height={300} data={data}>
         <XAxis
           hide
@@ -40,7 +36,6 @@ export function Chart({ end }: IChart) {
         <YAxis />
         <Legend verticalAlign="top" height={36} />
         <Line
-          name="easeOutElastic"
           type="monotone"
           dataKey="value"
           stroke={colors[0]}
@@ -49,6 +44,10 @@ export function Chart({ end }: IChart) {
           isAnimationActive={false}
         />
       </LineChart>
+      <section className="btn-ctrl">
+        <button onClick={() => setTrigger(true)}>Start</button>
+        <button onClick={() => setTrigger(false)}>Stop</button>
+      </section>
     </div>
   );
 }

@@ -15,3 +15,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.title {
+  font-weight: 300;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-ctrl {
+  display: flex;
+  justify-content: center;
+  margin: 1em;
+  color: white;
+}
+
+.btn-ctrl > button {
+  border: 1px solid white;
+  background: transparent;
+  color: inherit;
+  border-radius: 5px;
+  margin: 0.25em;
+  padding: 0.25em 0.5em;
+  min-width: 75px;
+}
