@@ -10,6 +10,8 @@ The package is written using TypeScript.
 
 > Inspired by [React CountUp](https://github.com/glennreyes/react-countup)
 
+Package size: :package: 2.75kb!
+
 ## Install
 
 Available in NPM, as [use-easing](https://www.npmjs.com/package/use-easing)!
@@ -34,7 +36,7 @@ yarn install use-easing
 ## Structure
 
 The hook encapsulates a single `effect`, which kicks off a `process` that invokes `requestAnimationFrame`,
-until the counter has arrived at its goal.
+until the easing value has arrived at its goal.
 
 The `effect` depends on the `end` goal, the `duration` and the state of an internal `trigger`.
 
@@ -57,7 +59,18 @@ function App() {
 }
 ```
 
-This config starts on mount and goes up to 10, over 1 second. By default it uses, the `easeInQuad`.
+## What does it do?
+
+If you provide only the basic props, the component starts on mount and goes up to 10, over 1 second. By default it uses, the `easeInQuad`.
+
+```tsx
+function App() {
+  const { value } = useEasing<number>({ end: 10, duration: 1 });
+  return value;
+}
+```
+
+If you are using TypeScript, bare in mind that easings are typed as shown.
 
 ```ts
 export const easeInQuad: easing = (
@@ -68,16 +81,9 @@ export const easeInQuad: easing = (
 ) => c * (t /= d) * t + b;
 ```
 
-If you are using TypeScript, bare in mind that easings are typed as shown.
+You can also specify the type of value by passing a type parameter to `useEasing`. Or better yet, provide your own custom easing!
 
-```tsx
-function App() {
-  const { value } = useEasing<number>({ end: 10, duration: 1 });
-  return value;
-}
-```
-
-You can also specify the type of value by passing a type parameter to `useEasing`.
+> t: current time, b: start, c: end - start, d: duration
 
 ## Optional Props
 
