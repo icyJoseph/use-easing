@@ -14,7 +14,7 @@ import useEasing from "../index";
 import { easeInQuad } from "../easings"; // the default easing
 
 // Test helper to simulate ticks on requestAnimationFrame
-function* generateFrames() {
+function* generateFrames(): Generator<number, number, number> {
   let _init = 0;
   while (true) {
     const step = yield _init; // yield _init and reads next(step)
@@ -26,7 +26,7 @@ const onStart = jest.fn();
 const onEnd = jest.fn();
 const onPauseResume = jest.fn();
 const onCleanUp = jest.fn();
-const formatFn = jest.fn(x => Math.floor(x));
+const formatFn = jest.fn((x) => Math.floor(x));
 
 interface StartStopProps {
   start: number;
@@ -43,7 +43,7 @@ const Container = ({ children }: ContainerProps) => {
 
   return mount ? (
     <div>
-      <button data-testid="unmount" onClick={() => setMount(x => !x)}>
+      <button data-testid="unmount" onClick={() => setMount((x) => !x)}>
         unMount
       </button>
       {children}
@@ -78,9 +78,10 @@ const StartStop = ({ start, end, duration }: StartStopProps) => {
 
 const frame = generateFrames();
 jest.useFakeTimers();
-jest
-  .spyOn(window, "requestAnimationFrame")
-  .mockImplementation(fn => setTimeout(() => fn(frame.next().value), 16));
+jest.spyOn(window, "requestAnimationFrame").mockImplementation((fn) => {
+  let timer = setTimeout(() => fn(frame.next().value), 16);
+  return (timer as unknown) as number;
+});
 
 describe("useEasing stable 60fps", () => {
   // over 1 second, countUp from 0 to 100, using easeInQuad
