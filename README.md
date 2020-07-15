@@ -1,5 +1,7 @@
 # use-easing
 
+[![npm](https://img.shields.io/npm/dm/use-easing)]()
+
 > Single dependency on React
 
 `use-easing` helps you ease a value using a React Hook.
