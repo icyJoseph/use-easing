@@ -1,6 +1,6 @@
 {
   "name": "use-easing",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Use easing functions with a pure React Hook",
   "author": {
     "name": "Joseph Chamochumbi",
