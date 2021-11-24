@@ -1,6 +1,4 @@
 import React from "react";
-import useEasing from "use-easing";
-import { easeInQuad } from "use-easing/lib/easings";
 
 import Chart from "./Chart";
 

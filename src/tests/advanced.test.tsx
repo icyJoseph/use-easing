@@ -1,7 +1,6 @@
 import React from "react";
-import { act } from "react-dom/test-utils";
-import { render, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import { render, fireEvent, screen, act } from "@testing-library/react";
+import "@testing-library/jest-dom";
 
 /** TODO:
  *  - Unmount by parent
@@ -12,15 +11,6 @@ import "@testing-library/jest-dom/extend-expect";
 
 import useEasing from "../index";
 import { easeInQuad } from "../easings"; // the default easing
-
-// Test helper to simulate ticks on requestAnimationFrame
-function* generateFrames(): Generator<number, number, number> {
-  let _init = 0;
-  while (true) {
-    const step = yield _init; // yield _init and reads next(step)
-    _init += step || 16; // if step is undefined, step by 16
-  }
-}
 
 const onStart = jest.fn();
 const onEnd = jest.fn();
@@ -76,24 +66,19 @@ const StartStop = ({ start, end, duration }: StartStopProps) => {
   );
 };
 
-const frame = generateFrames();
 jest.useFakeTimers();
-jest.spyOn(window, "requestAnimationFrame").mockImplementation((fn) => {
-  let timer = setTimeout(() => fn(frame.next().value), 16);
-  return (timer as unknown) as number;
-});
 
 describe("useEasing stable 60fps", () => {
   // over 1 second, countUp from 0 to 100, using easeInQuad
   const basicProps: StartStopProps = { start: 0, end: 100, duration: 1 };
-  const { getByTestId } = render(
+  render(
     <Container>
       <StartStop {...basicProps} />
     </Container>
   );
 
   it("starts at the specified value", () => {
-    const startingFrame = getByTestId("value");
+    const startingFrame = screen.getByTestId("value");
     const startingFrameValue = startingFrame && startingFrame.textContent;
     expect(startingFrameValue).toEqual(`${basicProps.start}`);
     act(() => {
@@ -103,16 +88,16 @@ describe("useEasing stable 60fps", () => {
 
   it("after one frame the value is still at the start", () => {
     act(() => {
-      jest.runTimersToTime(16);
+      jest.advanceTimersByTime(16);
     });
 
-    const firstFrame = getByTestId("value");
+    const firstFrame = screen.getByTestId("value");
     const firstFrameValue = firstFrame && firstFrame.textContent;
     expect(firstFrameValue).toEqual(`${basicProps.start}`);
   });
 
   it("starts when clicking start button", () => {
-    const startButton = getByTestId("start");
+    const startButton = screen.getByTestId("start");
 
     act(() => {
       fireEvent.click(startButton);
@@ -126,16 +111,16 @@ describe("useEasing stable 60fps", () => {
     );
 
     act(() => {
-      jest.runTimersToTime(496); // account for **
+      jest.advanceTimersByTime(496); // account for **
     });
 
-    const midFrame = getByTestId("value");
+    const midFrame = screen.getByTestId("value");
     const midFrameValue = midFrame && midFrame.textContent;
     expect(midFrameValue).toEqual(`${Math.floor(expectedMidValue)}`);
   });
 
   it("can be paused", () => {
-    const stopButton = getByTestId("stop");
+    const stopButton = screen.getByTestId("stop");
 
     act(() => {
       fireEvent.click(stopButton); // we are now paused!
@@ -146,29 +131,29 @@ describe("useEasing stable 60fps", () => {
       jest.runOnlyPendingTimers();
     });
 
-    const beforePausingFrame = getByTestId("value");
+    const beforePausingFrame = screen.getByTestId("value");
     const beforePausingFrameValue =
       beforePausingFrame && beforePausingFrame.textContent;
 
     act(() => {
-      jest.runTimersToTime(496); // should have no effect
+      jest.advanceTimersByTime(496); // should have no effect
     });
 
-    const pausingFrame = getByTestId("value");
+    const pausingFrame = screen.getByTestId("value");
     const pausingFrameValue = pausingFrame && pausingFrame.textContent;
     expect(pausingFrameValue).toEqual(beforePausingFrameValue);
   });
 
   it("eventually reaches the target value", () => {
-    const startButton = getByTestId("start");
+    const startButton = screen.getByTestId("start");
 
     fireEvent.click(startButton);
 
     act(() => {
-      jest.runTimersToTime(basicProps.duration * 1000 + 16 + 16); //
+      jest.advanceTimersByTime(basicProps.duration * 1000 + 16 + 16); //
     });
 
-    const finalFrame = getByTestId("value");
+    const finalFrame = screen.getByTestId("value");
     const finalFrameValue = finalFrame && finalFrame.textContent;
     expect(finalFrameValue).toEqual(`${basicProps.end}`);
   });

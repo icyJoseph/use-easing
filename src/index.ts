@@ -46,9 +46,9 @@ export function useEasing<T>({
   onEnd = noop
 }: EasingProps<T>): useEasingResult<T> {
   const [trigger, setTrigger] = useState(autoStart);
-  const [data, setData] = useState<number>(start);
+  const [data, setData] = useState(start);
   const easingFnRef = useRef<easing>(easingFn);
-  const dataRef = useRef<number>(data);
+  const dataRef = useRef(data);
   dataRef.current = data; // Update on every render
   const callbacks = useRef({ onCleanUp, onPauseResume, onStart, onEnd });
 
